@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import teamData from './data/teamData.js';
-
-// import Form from "./components/Form.js";
+import Form from "./components/Form.js";
 
 function App() {
   const [team, setTeam] = useState(teamData);
@@ -24,6 +23,7 @@ function App() {
         })}
       </div>
 
+      <Form />
 
     </div>
   );
