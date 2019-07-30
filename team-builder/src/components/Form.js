@@ -1,67 +1,44 @@
 import React, { useState } from 'react';
 
-export default function Form() {
+const Form = (props) => {
+    console.log(props);
+    // const setPeople = props.setPeople; <-- same as Line 6
+    const { submitPerson, initialPerson, buttonText, history } = props;
+    const [person, setPerson] = useState(initialPerson || {name: "", email: "", role: ""});
+    
+    const handleChange = event => {
+        setPerson({...person, [event.target.name]: event.target.value});
+    };
 
-    const [member, setMember] = useState({ name: "", email: "", role: "" });
-
-    function handleChange(e) {
-        const updatedMember = { ...member, [e.target.name]: e.target.value };
-        console.log(
-            "handleChange",
-            e.target.name,
-            e.target.value,
-            updatedMember
-        );
-        setMember(updatedMember);
-    }
-
-    function handleSubmit(event) {
+    const handleSubmit = event => {
         event.preventDefault();
-        console.log('submitted member: ', member);
-    }
+        // setPeople(people => [...people, person]);
+        submitPerson(person);
+        setPerson({name: "", email: "", role: ""});
+        history.push("/");
+    };
 
     return (
         <form onSubmit={handleSubmit}>
-            <fieldset>
-                <legend>Add Members</legend>
-                <div>
-                    <label for="name">Name</label>
-                    <div>
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder="Enter your name"
-                            value={member.name}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-                <div>
-                    <label for="email">Email</label>
-                    <div>
-                        <input
-                            type="text"
-                            name="email"
-                            placeholder="Enter your email"
-                            value={member.email}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-                <div>
-                    <label for="role">Role</label>
-                    <div>
-                        <input
-                            type="text"
-                            name="role"
-                            placeholder="Enter your role"
-                            value={member.role}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-                <button type="submit">Submit</button>
-            </fieldset>
+            <input placeholder="name" 
+                value={person.name}
+                name="name"
+                onChange={handleChange}
+            />
+            <input placeholder="email" 
+                value={person.email}
+                name="email"
+                type="email"
+                onChange={handleChange} 
+            />
+            <input placeholder="role" 
+                value={person.role}
+                name="role"
+                onChange={handleChange} 
+            />
+            <button type="submit">{buttonText}</button>
         </form>
     );
-}
+};
+
+export default Form;
